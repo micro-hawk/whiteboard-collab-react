@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "../container/Container";
 import "./style.css";
 
 class Board extends React.Component {
@@ -33,6 +34,7 @@ class Board extends React.Component {
       //   false
     );
 
+    let tempColor = colorF();
     /* Drawing on Paint App */
     ctx.lineWidth = 10;
     ctx.lineJoin = "round";

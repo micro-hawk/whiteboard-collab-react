@@ -7,10 +7,10 @@ class Container extends React.Component {
     super(props);
   }
 
-  colorF() {
+  colorF = () => {
     let theInput = document.getElementById("favcolor");
     let theColor = theInput;
-  }
+  };
 
   render() {
     return (
