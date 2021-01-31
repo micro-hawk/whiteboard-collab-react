@@ -1,5 +1,7 @@
 import React from "react";
 import "./style.css";
+import { colorINPUT } from "../container/Container";
+
 class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +38,7 @@ class Board extends React.Component {
     ctx.lineWidth = 10;
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
-    ctx.strokeStyle = "orange";
+    ctx.strokeStyle = "green";
 
     canvas.addEventListener(
       "mousedown",
