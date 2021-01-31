@@ -6,20 +6,17 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
   }
-  colorF() {
-    var theInput = document.getElementById("favcolor");
-    var theColor = theInput.value;
 
-    const colorINPUT = {
-      rgb: theColor,
-    };
+  colorF() {
+    let theInput = document.getElementById("favcolor");
+    let theColor = theInput;
   }
 
   render() {
     return (
       <div className="container">
         <div className="color-picker-container">
-          <input type="color" name="favcolor" value="" id="favcolor"></input>
+          <input type="color" id="favcolor" />
         </div>
         <div className="board-container">
           <Board />

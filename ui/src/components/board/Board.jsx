@@ -1,6 +1,5 @@
 import React from "react";
 import "./style.css";
-import { colorINPUT } from "../container/Container";
 
 class Board extends React.Component {
   constructor(props) {
