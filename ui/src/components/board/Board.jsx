@@ -8,57 +8,67 @@ class Board extends React.Component {
     this.drawOnCan();
   }
   drawOnCan() {
-    // create canvas element and append it to document body
-    var canvas = document.createElement("canvas");
-    document.body.appendChild(canvas);
-
-    // some hotfixes... ( ≖_≖)
-    document.body.style.margin = 0;
-    canvas.style.position = "fixed";
-
-    // get canvas 2D context and set him correct size
+    var canvas = document.querySelector("#paint");
     var ctx = canvas.getContext("2d");
-    resize();
 
-    // last known position
-    var pos = { x: 0, y: 0 };
+    var sketch = document.querySelector("#sketch");
+    var sketch_style = getComputedStyle(sketch);
+    canvas.width = parseInt(sketch_style.getPropertyValue("width"));
+    canvas.height = parseInt(sketch_style.getPropertyValue("height"));
 
-    window.addEventListener("resize", resize);
-    document.addEventListener("mousemove", draw);
-    document.addEventListener("mousedown", setPosition);
-    document.addEventListener("mouseenter", setPosition);
+    var mouse = { x: 0, y: 0 };
+    var last_mouse = { x: 0, y: 0 };
 
-    // new position from mouse event
-    function setPosition(e) {
-      pos.x = e.clientX;
-      pos.y = e.clientY;
-    }
+    /* Mouse Capturing Work */
+    canvas.addEventListener(
+      "mousemove",
+      function (e) {
+        last_mouse.x = mouse.x;
+        last_mouse.y = mouse.y;
 
-    // resize canvas
-    function resize() {
-      ctx.canvas.width = window.innerWidth;
-      ctx.canvas.height = window.innerHeight;
-    }
+        mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop;
+      }
+      //   false
+    );
 
-    function draw(e) {
-      // mouse left button must be pressed
-      if (e.buttons !== 1) return;
+    /* Drawing on Paint App */
+    ctx.lineWidth = 10;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "orange";
 
-      ctx.beginPath(); // begin
+    canvas.addEventListener(
+      "mousedown",
+      function (e) {
+        canvas.addEventListener("mousemove", onPaint, false);
+      },
+      false
+    );
 
-      ctx.lineWidth = 5;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "black";
+    canvas.addEventListener(
+      "mouseup",
+      function () {
+        canvas.removeEventListener("mousemove", onPaint, false);
+      },
+      false
+    );
 
-      ctx.moveTo(pos.x, pos.y); // from
-      setPosition(e);
-      ctx.lineTo(pos.x, pos.y); // to
-
-      ctx.stroke(); // draw it!
-    }
+    var onPaint = function () {
+      ctx.beginPath();
+      ctx.moveTo(last_mouse.x, last_mouse.y);
+      ctx.lineTo(mouse.x, mouse.y);
+      ctx.closePath();
+      ctx.stroke();
+    };
   }
   render() {
-    return <canvas className="board" id="board"></canvas>;
+    return (
+      <div className="sketch" id="sketch">
+        <canvas id="paint"></canvas>
+        <canvas className="board" id="board"></canvas>
+      </div>
+    );
   }
 }
 
